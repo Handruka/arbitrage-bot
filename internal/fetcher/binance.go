@@ -38,14 +38,14 @@ func (f *Fetcher) GetPrices(pairs []string) (map[string]float64, error) {
 
 	price := make(map[string]float64)
 
+	var builder strings.Builder
+
+	builder.WriteString(f.BaseURL)
+	builder.WriteString("/api/v3/ticker/price?symbol=")
+	builder.WriteString(v)
+	url := builder.String()
+
 	for _, v := range pairs {
-
-		var builder strings.Builder
-
-		builder.WriteString(f.BaseURL)
-		builder.WriteString("/api/v3/ticker/price?symbol=")
-		builder.WriteString(v)
-		url := builder.String()
 
 		resp, err := f.Client.Get(url)
 		if err != nil {

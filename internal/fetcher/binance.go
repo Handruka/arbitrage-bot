@@ -34,18 +34,19 @@ func NewFetcher(apiKey, apiSecret string) *Fetcher {
 	}
 }
 
-func (f *Fetcher) GetPrices(pairs []string) (map[string]float64, error) {
+func (f *Fetcher) GetPrices(pairs string) (map[string]float64, error) {
 
 	price := make(map[string]float64)
+	slcSymbol := strings.Split(pairs, ",")
 
-	var builder strings.Builder
+	for _, v := range slcSymbol {
 
-	builder.WriteString(f.BaseURL)
-	builder.WriteString("/api/v3/ticker/price?symbol=")
-	builder.WriteString(v)
-	url := builder.String()
+		var builder strings.Builder
 
-	for _, v := range pairs {
+		builder.WriteString(f.BaseURL)
+		builder.WriteString("/api/v3/ticker/price?symbol=")
+		builder.WriteString(v)
+		url := builder.String()
 
 		resp, err := f.Client.Get(url)
 		if err != nil {
